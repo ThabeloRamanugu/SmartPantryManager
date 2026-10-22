@@ -43,4 +43,14 @@
     <string name="section_method">Method</string>
     <string name="missing_tag">(missing)</string>
     <string name="btn_back">Back</string>
+
+    <string name="pref_alerts_title">Highlight items expiring soon</string>
+    <string name="pref_alerts_desc">Show expiry dates in red when they are close</string>
+    <string name="pref_days_title">Count as expiring soon</string>
+    <string name="pref_days_desc">How many days before the expiry date</string>
+    <string name="days_1">1 day</string>
+    <string name="days_3">3 days</string>
+    <string name="days_5">5 days</string>
+    <string name="days_7">7 days</string>
+    <string name="settings_about">Smart Pantry Manager helps you cook with what you already have and cut food waste.</string>
 </resources>

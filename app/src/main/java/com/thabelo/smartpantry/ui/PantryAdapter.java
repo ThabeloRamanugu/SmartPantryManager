@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thabelo.smartpantry.R;
 import com.thabelo.smartpantry.data.PantryItem;
+import com.thabelo.smartpantry.util.AppSettings;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -28,8 +29,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
     private List<PantryItem> items = new ArrayList<>();
     private final OnItemClickListener listener;
 
-    // 3 days in milliseconds, items closer than this count as "expiring soon"
-    private static final long SOON = 3L * 24 * 60 * 60 * 1000;
+    private static final long DAY = 24L * 60 * 60 * 1000;
 
     public PantryAdapter(OnItemClickListener listener) {
         this.listener = listener;
@@ -41,7 +41,6 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    // The fragment needs this to know which item was swiped
     public PantryItem getItem(int position) {
         return items.get(position);
     }
@@ -59,6 +58,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PantryItem item = items.get(position);
+        android.content.Context context = holder.itemView.getContext();
 
         holder.name.setText(item.name);
 
@@ -73,12 +73,14 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
             holder.expiry.setTextColor(Color.GRAY);
         } else {
             String date = DateFormat.getDateInstance().format(new Date(item.expiryDate));
-            holder.expiry.setText(holder.itemView.getContext()
-                    .getString(R.string.expires_on, date));
+            holder.expiry.setText(context.getString(R.string.expires_on, date));
 
-            // red if it is expired or expires within 3 days, grey if not
-            boolean soon = item.expiryDate - System.currentTimeMillis() < SOON;
-            holder.expiry.setTextColor(soon ? Color.parseColor("#C62828") : Color.GRAY);
+            // I read the user's settings: is the highlight on, and how many days is "soon"
+            boolean alerts = AppSettings.alertsEnabled(context);
+            long limit = AppSettings.soonDays(context) * DAY;
+            boolean soon = item.expiryDate - System.currentTimeMillis() < limit;
+
+            holder.expiry.setTextColor(alerts && soon ? Color.parseColor("#C62828") : Color.GRAY);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
