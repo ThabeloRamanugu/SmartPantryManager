@@ -14,11 +14,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.thabelo.smartpantry.R;
+import com.thabelo.smartpantry.data.PantryItem;
 
 // My Pantry screen. It shows every ingredient the user has.
 public class PantryFragment extends Fragment {
@@ -67,6 +70,32 @@ public class PantryFragment extends Fragment {
             adapter.setItems(list);
             emptyText.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
         });
+
+        // swiping a card left or right deletes it, and Undo puts it back
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView rv,
+                                  @NonNull RecyclerView.ViewHolder vh,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return false;   // I don't allow drag and drop
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder holder, int direction) {
+                PantryItem deleted = adapter.getItem(holder.getBindingAdapterPosition());
+                viewModel.delete(deleted);
+
+                // Undo adds the same item back (a new id is fine)
+                Snackbar.make(view, R.string.item_deleted, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.undo, v -> {
+                            deleted.id = 0;
+                            viewModel.restore(deleted);
+                        })
+                        .show();
+            }
+        }).attachToRecyclerView(recycler);
 
         // the + button opens the same screen with no id, so it adds
         fab.setOnClickListener(v ->

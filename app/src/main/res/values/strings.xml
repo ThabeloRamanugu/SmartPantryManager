@@ -53,4 +53,6 @@
     <string name="days_5">5 days</string>
     <string name="days_7">7 days</string>
     <string name="settings_about">Smart Pantry Manager helps you cook with what you already have and cut food waste.</string>
+
+    <string name="item_deleted">Item deleted</string>
 </resources>

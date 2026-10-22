@@ -13,10 +13,14 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- my bottom navigation bar, it uses the menu I made -->
+    <!-- my bottom navigation bar, tinted green to match the theme -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
         app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>
