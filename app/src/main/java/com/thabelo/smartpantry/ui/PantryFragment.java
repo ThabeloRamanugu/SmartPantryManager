@@ -1,5 +1,6 @@
 package com.thabelo.smartpantry.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,12 @@ public class PantryFragment extends Fragment {
         TextView emptyText = view.findViewById(R.id.text_empty);
         FloatingActionButton fab = view.findViewById(R.id.fab_add);
 
-        // the click on a card does nothing yet, I add the edit screen later
-        adapter = new PantryAdapter(item -> { });
+        // tapping a card opens the edit screen and sends the item id in an Intent
+        adapter = new PantryAdapter(item -> {
+            Intent intent = new Intent(requireContext(), AddEditActivity.class);
+            intent.putExtra(AddEditActivity.EXTRA_ITEM_ID, item.id);
+            startActivity(intent);
+        });
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.setAdapter(adapter);
 
@@ -63,7 +68,8 @@ public class PantryFragment extends Fragment {
             emptyText.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
         });
 
-        // the add button does nothing yet, I build that screen next
-        fab.setOnClickListener(v -> { });
+        // the + button opens the same screen with no id, so it adds
+        fab.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), AddEditActivity.class)));
     }
 }
