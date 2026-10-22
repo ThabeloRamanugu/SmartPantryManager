@@ -31,4 +31,10 @@
     <string name="confirm_delete_title">Delete this item?</string>
     <string name="confirm_delete_msg">This removes it from your pantry.</string>
     <string name="cancel">Cancel</string>
+
+    <string name="section_ready">Ready to cook</string>
+    <string name="section_almost">Almost there (missing 1 ingredient)</string>
+    <string name="no_match">No recipes match your pantry yet - add more ingredients</string>
+    <string name="missing_one">Missing: %1$s</string>
+    <string name="prep_time">%1$d min</string>
 </resources>

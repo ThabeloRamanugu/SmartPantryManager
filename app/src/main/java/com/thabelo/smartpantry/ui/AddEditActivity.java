@@ -32,7 +32,7 @@ public class AddEditActivity extends AppCompatActivity {
     public static final String EXTRA_ITEM_ID = "item_id";
 
     // the units I allow, the recipes use the same ones
-    private static final String[] UNITS = {"g", "ml", "piece", "tsp", "tbsp"};
+    private static final String[] UNITS = {"g", "kg", "ml", "l", "piece", "tsp", "tbsp"};
 
     private TextInputLayout layoutName, layoutQuantity, layoutUnit;
     private TextInputEditText editName, editQuantity, editExpiry;
