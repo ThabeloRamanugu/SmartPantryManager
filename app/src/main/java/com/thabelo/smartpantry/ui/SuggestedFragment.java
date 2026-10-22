@@ -1,10 +1,10 @@
 package com.thabelo.smartpantry.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,9 +53,12 @@ public class SuggestedFragment extends Fragment {
             return insets;
         });
 
-        // the detail screen comes in the next step, so for now I just show a toast
-        adapter = new SuggestedAdapter(recipe ->
-                Toast.makeText(requireContext(), recipe.name, Toast.LENGTH_SHORT).show());
+        // tapping a card opens the detail screen and sends the recipe id in an Intent
+        adapter = new SuggestedAdapter(recipe -> {
+            Intent intent = new Intent(requireContext(), RecipeDetailActivity.class);
+            intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE_ID, recipe.id);
+            startActivity(intent);
+        });
 
         RecyclerView recycler = view.findViewById(R.id.recycler_suggested);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -70,9 +73,12 @@ public class SuggestedFragment extends Fragment {
     }
 
     private void loadSuggestions() {
+        // I grab the context now, on the main thread, so the background thread is safe
+        final android.content.Context appContext = requireContext().getApplicationContext();
+
         // database work runs on my background thread
         AppDatabase.dbExecutor.execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(requireContext());
+            AppDatabase db = AppDatabase.getInstance(appContext);
             RecipeDao recipeDao = db.recipeDao();
             List<PantryItem> pantry = db.pantryDao().getAll();
 

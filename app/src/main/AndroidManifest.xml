@@ -14,6 +14,10 @@
         android:theme="@style/Theme.SmartPantryManager">
 
         <activity
+            android:name=".ui.RecipeDetailActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.AddEditActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
