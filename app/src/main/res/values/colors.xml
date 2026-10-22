@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- my green palette, it fits a food waste app -->
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_dark">#1B5E20</color>
+    <color name="green_light">#C8E6C9</color>
+    <color name="orange_accent">#FB8C00</color>
+    <color name="screen_bg">#F4F8F2</color>
+    <color name="text_dark">#1F2A1F</color>
+    <color name="text_grey">#6B776B</color>
+    <color name="expiry_red">#C62828</color>
 </resources>

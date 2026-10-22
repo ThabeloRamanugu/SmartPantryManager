@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +35,16 @@ public class PantryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // I push the header down so it does not hide under the status bar
+        View header = view.findViewById(R.id.header);
+        int basePad = header.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(header, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(v.getPaddingLeft(), basePad + bars.top,
+                    v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
         RecyclerView recycler = view.findViewById(R.id.recycler_pantry);
         TextView emptyText = view.findViewById(R.id.text_empty);
